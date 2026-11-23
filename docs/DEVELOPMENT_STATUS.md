@@ -1,6 +1,10 @@
 # OpsBridge development status
 
-## Current handoff — Portfolio publication candidate
+## Current handoff — Portfolio README update
+
+The README leads with Overview and a compact walkthrough of delivery investigation, reconciliation exceptions, the corrected-run comparison and simulated Copilot citations. The manifest and publication checks allowlist the five reviewed images. The visual update is prepared for review before publication to GitHub.
+
+## Previous handoff — Portfolio publication candidate
 
 The candidate includes a recruiter-facing README, three reviewed synthetic screenshots, a manifest-enforced CI workflow, and an exact source-only file inventory. Use a fresh snapshot to keep existing Git metadata and internal history local. The license and publication authorization remain owner decisions. Run the workflow and demo against the approved private snapshot before changing its visibility. [Publication checklist](PUBLICATION.md) · [File inventory](PUBLICATION_MANIFEST.txt)
 

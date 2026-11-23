@@ -128,9 +128,11 @@ docs/PUBLICATION.md
 docs/PUBLICATION_MANIFEST.txt
 docs/RELEASE_READINESS.md
 docs/architecture.md
+docs/portfolio/copilot-incident-simulated.png
 docs/portfolio/delivery-incident.png
 docs/portfolio/overview.png
 docs/portfolio/reconciliation-comparison.png
+docs/portfolio/reconciliation-exceptions.png
 frontend/.dockerignore
 frontend/30-monitoring-config.sh
 frontend/Dockerfile

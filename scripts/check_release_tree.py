@@ -8,9 +8,11 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs/PUBLICATION_MANIFEST.txt"
 SCREENSHOTS = {
+    Path("docs/portfolio/copilot-incident-simulated.png"),
     Path("docs/portfolio/overview.png"),
     Path("docs/portfolio/delivery-incident.png"),
     Path("docs/portfolio/reconciliation-comparison.png"),
+    Path("docs/portfolio/reconciliation-exceptions.png"),
 }
 SCOPES = (
     "backend",

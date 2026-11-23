@@ -2,7 +2,23 @@
 
 OpsBridge is a financial integration operations workbench built with synthetic data. It helps an operations analyst find a missing or failed delivery, review the evidence, and reconcile two independent financial exports. It demonstrates the path from an incoming file to an auditable operator decision.
 
+[Run the demo](#quick-start) · [See the architecture](#architecture) · [Review test evidence](#verification-and-measured-behavior)
+
 ![OpsBridge Overview showing synthetic incidents, delivery SLA and integration health](docs/portfolio/overview.png)
+
+## Product walkthrough
+
+See how an operator investigates a synthetic delivery and reconciles two independent exports. Open any screenshot at full size.
+
+| 1. Investigate a delivery | 2. Review financial exceptions |
+| --- | --- |
+| <a href="docs/portfolio/delivery-incident.png"><img src="docs/portfolio/delivery-incident.png" width="400" alt="Payment register delivery with the retained file, a critical source ID conflict, and its recorded timeline"></a> | <a href="docs/portfolio/reconciliation-exceptions.png"><img src="docs/portfolio/reconciliation-exceptions.png" width="400" alt="Completed reconciliation with five exception groups and a signed 10 USD mismatch"></a> |
+| Check the retained file and receipt history when a vendor reuses a delivery ID with different content. | Inspect a **−10 USD** mismatch and trace the reconciliation back to its two source deliveries. |
+
+| 3. Compare the corrected run | 4. Investigate with Copilot · SIMULATED |
+| --- | --- |
+| <a href="docs/portfolio/reconciliation-comparison.png"><img src="docs/portfolio/reconciliation-comparison.png" width="400" alt="Previous and corrected reconciliation runs showing the exception group count fall from five to zero"></a> | <a href="docs/portfolio/copilot-incident-simulated.png"><img src="docs/portfolio/copilot-incident-simulated.png" width="400" alt="Simulated incident analysis separating recorded facts and hypotheses with citations to OpsBridge evidence"></a> |
+| Verify that the corrected exports reduced the recorded exception groups from **five to zero** while preserving the earlier run. | Follow cited records for a delivery ID conflict. The read-only simulation separates recorded facts from hypotheses and next steps. |
 
 ## What you can demonstrate
 
@@ -11,15 +27,6 @@ OpsBridge is a financial integration operations workbench built with synthetic d
 - Compare independent source files with deterministic decimal reconciliation. Inspect mismatched and missing records, ambiguous matches, and the history of corrected reruns.
 - Trace events from a PostgreSQL transactional outbox through RabbitMQ to an idempotent inbox and rebuildable activity feed. Browse live dashboard updates and local monitoring.
 - Ask the read-only Operations Copilot about an incident. The default provider is labeled **Simulated analysis**. It uses persisted evidence, separates hypotheses from facts and cites records.
-
-<details>
-<summary>See delivery evidence and corrected-run comparison</summary>
-
-![A synthetic completed payment register delivery with an open source-ID conflict](docs/portfolio/delivery-incident.png)
-
-![Comparison of two synthetic reconciliation runs with the exception group count changing from five to zero](docs/portfolio/reconciliation-comparison.png)
-
-</details>
 
 ## Quick start
 

@@ -92,6 +92,8 @@ artifacts/
 !/docs/portfolio/overview.png
 !/docs/portfolio/delivery-incident.png
 !/docs/portfolio/reconciliation-comparison.png
+!/docs/portfolio/reconciliation-exceptions.png
+!/docs/portfolio/copilot-incident-simulated.png
 /.codex_access_probe.tmp
 
 # Editors and operating systems

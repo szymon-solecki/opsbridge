@@ -5,10 +5,10 @@ This is a source-only candidate for the synthetic, loopback portfolio demo. The 
 ## Candidate contents
 
 - Application source, schema migrations, tests, build definitions, sample policies, demo and verification tooling, and project documentation.
-- Three reviewed screenshots from disposable browser runs under `docs/portfolio/`. They show fictional integrations, scenario-specific counts and amounts, and the synthetic `demo-admin` identity. The copies are rendered PNGs without browser chrome or textual image metadata.
+- Five reviewed screenshots from disposable browser runs under `docs/portfolio/`. They show fictional integrations, scenario-specific counts and amounts, and the synthetic `demo-admin` identity. The copies are rendered PNGs without browser chrome or textual image metadata.
 - A read-only GitHub Actions workflow for source inventory, dependency audits, builds and isolated tests. Integration tests verify a fresh `opsbridge_test` before migration. The offline Copilot evaluator and the live browser application use the simulated provider. The workflow does not deploy or publish artifacts.
 
-Exclude existing Git metadata and history, runtime environments and credentials, SSH and SFTP account material, databases and dumps, logs, local volumes, installed packages, caches, browser traces, generated reports and all screenshots outside the three approved paths. Keep those materials local. Docker state is outside the source snapshot.
+Exclude existing Git metadata and history, runtime environments and credentials, SSH and SFTP account material, databases and dumps, logs, local volumes, installed packages, caches, browser traces, generated reports and screenshots outside the five approved paths. Keep those materials local. Docker state is outside the source snapshot.
 
 ## Release gates
 
