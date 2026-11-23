@@ -1,0 +1,292 @@
+{
+  "title": "OpsBridge Operations",
+  "uid": "opsbridge-operations",
+  "schemaVersion": 39,
+  "version": 1,
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "refresh": "15s",
+  "panels": [
+    {
+      "id": 1,
+      "title": "Dependency and target health",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "opsbridge-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "label_replace(min by (job) (up), \"check\", \"$1 scrape\", \"job\", \"(.+)\") or label_replace(opsbridge_database_up, \"check\", \"PostgreSQL metrics\", \"job\", \".*\") or label_replace(opsbridge_broker_up, \"check\", \"RabbitMQ authentication\", \"dependency\", \".*\") or label_replace(opsbridge_worker_ready, \"check\", \"$1 ready\", \"worker\", \"(.+)\")",
+          "legendFormat": "{{check}}",
+          "instant": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Intake and processing throughput",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "opsbridge-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (event) (rate(opsbridge_delivery_events_total{event=~\"FileReceived|FileProcessingCompleted|FileProcessingStarted|DeliveryOverdue\"}[5m]))",
+          "legendFormat": "{{event}}",
+          "instant": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Processing failures and retries",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "opsbridge-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 7,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (event) (rate(opsbridge_delivery_events_total{event=~\"FileProcessingFailed|FileValidationFailed|SourceDeliveryIdConflict\"}[5m])) or rate(opsbridge_processing_retries_total[5m])",
+          "legendFormat": "{{event}} {{__name__}}",
+          "instant": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Outbox and RabbitMQ backlog",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "opsbridge-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 7,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (queue) (rabbitmq_queue_messages_ready{queue=~\"opsbridge.activity.v1|opsbridge.activity.dead.v1\"}) or sum by (state) (opsbridge_outbox_backlog)",
+          "legendFormat": "{{queue}}{{state}}",
+          "instant": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Notification attempts",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "opsbridge-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (increase(opsbridge_notification_attempts_total[5m]))",
+          "legendFormat": "{{outcome}}",
+          "instant": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "API response latency (p95)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "opsbridge-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 14,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(opsbridge_api_duration_seconds_bucket[5m])))",
+          "legendFormat": "All routes",
+          "instant": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "API 4xx and 5xx responses",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "opsbridge-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 21,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (status) (rate(opsbridge_api_requests_total{status=~\"4xx|5xx\"}[5m]))",
+          "legendFormat": "{{status}}",
+          "instant": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Worker duration (p95)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "opsbridge-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 21,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.95, sum by (operation, le) (rate(opsbridge_worker_duration_seconds_bucket[5m])))",
+          "legendFormat": "{{operation}}",
+          "instant": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Consumer outcomes",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "opsbridge-prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 28,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (increase(opsbridge_worker_outcomes_total{operation=\"activity_consume\"}[5m]))",
+          "legendFormat": "{{outcome}}",
+          "instant": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Incident lifecycle",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "opsbridge-prometheus"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 28,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (type) (increase(opsbridge_incidents_opened_total[5m]))",
+          "legendFormat": "Opened {{type}}",
+          "instant": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        },
+        {
+          "refId": "B",
+          "expr": "sum by (type) (increase(opsbridge_incidents_resolved_total[5m]))",
+          "legendFormat": "Resolved {{type}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "opsbridge-prometheus"
+          }
+        }
+      ]
+    }
+  ]
+}

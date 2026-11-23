@@ -1,0 +1,5 @@
+# Linux container entrypoints must retain LF on Windows checkouts.
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.conf.template text eol=lf
+sshd_config text eol=lf

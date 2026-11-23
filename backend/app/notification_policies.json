@@ -1,0 +1,22 @@
+[
+  {
+    "opened": [
+      {"owner": "Integration Operations", "email": "operations@opsbridge.test"},
+      {"owner": "Process Owner", "email": "process-owner@opsbridge.test"}
+    ],
+    "resolved": [{"owner": "Process Owner", "email": "process-owner@opsbridge.test"}],
+    "escalations": [
+      {"after_seconds": 120, "recipients": [{"owner": "Operations Lead", "email": "ops-lead@opsbridge.test"}]},
+      {"after_seconds": 300, "recipients": [{"owner": "Service Manager", "email": "manager@opsbridge.test"}]}
+    ]
+  },
+  {
+    "incident_type": "SOURCE_DELIVERY_ID_CONFLICT",
+    "severity": "CRITICAL",
+    "opened": [{"owner": "Reconciliation Owner", "email": "reconciliation@opsbridge.test"}],
+    "escalations": [
+      {"after_seconds": 60, "recipients": [{"owner": "Operations Lead", "email": "ops-lead@opsbridge.test"}]},
+      {"after_seconds": 180, "recipients": [{"owner": "Service Manager", "email": "manager@opsbridge.test"}]}
+    ]
+  }
+]

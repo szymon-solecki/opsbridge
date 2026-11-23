@@ -1,0 +1,12 @@
+**
+!src
+!src/**
+!tests
+!tests/**
+!package*.json
+!tsconfig.json
+!index.html
+!*.ts
+!nginx.conf.template
+!30-monitoring-config.sh
+!Dockerfile

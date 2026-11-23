@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_DOTENV_DISABLED: '1'
+  OPSBRIDGE_COPILOT_PROVIDER: mock
+
+jobs:
+  quality:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Python lint and release tooling format
+        run: |
+          python3 -m venv "$RUNNER_TEMP/quality"
+          "$RUNNER_TEMP/quality/bin/pip" install ruff==0.15.7
+          "$RUNNER_TEMP/quality/bin/ruff" check --select E9,F63,F7,F82 backend scripts
+          "$RUNNER_TEMP/quality/bin/ruff" check scripts/check_release_tree.py scripts/run_portfolio.py
+          "$RUNNER_TEMP/quality/bin/ruff" format --check scripts/check_release_tree.py scripts/run_portfolio.py
+      - name: Validate Compose without dotenv
+        env:
+          COMPOSE_DISABLE_ENV_FILE: '1'
+          POSTGRES_DB: opsbridge_test
+          POSTGRES_USER: synthetic
+          POSTGRES_PASSWORD: synthetic-compose-only
+        run: docker compose --profile '*' config -q
+      - name: Check publication inventory
+        run: python3 scripts/check_release_tree.py --manifest
+      - name: Audit dependency pins and lockfile
+        run: |
+          python3 -m venv "$RUNNER_TEMP/audit"
+          "$RUNNER_TEMP/audit/bin/pip" install pip-audit==2.10.1
+          "$RUNNER_TEMP/audit/bin/pip-audit" --disable-pip --no-deps -r backend/constraints.txt
+          docker run --rm -v "$PWD/frontend:/app:ro" -w /app node:22-alpine npm audit --audit-level=moderate
+
+  application:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Build production images and Chromium runner
+        run: |
+          docker build -t opsbridge-backend:intake-check backend
+          docker build -t opsbridge-sftp:intake-check infra/sftp
+          docker build -t opsbridge-dashboard:demo frontend
+          docker build --target browser-tests -t opsbridge-dashboard:browser frontend
+      - name: TypeScript and isolated frontend tests
+        run: |
+          docker run --rm --network none opsbridge-dashboard:browser npm test -- --workers=1
+      - name: Check backend dependency consistency and offline evaluator
+        run: |
+          docker run --rm --network none --entrypoint python opsbridge-backend:intake-check -m pip check
+          docker run --rm --network none -e PYTHON_DOTENV_DISABLED=1 \
+            -v "$PWD/scripts/copilot_eval:/app/copilot_eval:ro" --entrypoint python opsbridge-backend:intake-check \
+            -m pytest copilot_eval/test_runner.py -q -p no:cacheprovider
+      - name: PostgreSQL, RabbitMQ, recovery and live browser tests
+        run: |
+          docker pull postgres:17
+          docker pull rabbitmq:4.2-management
+          docker pull axllent/mailpit:v1.27
+          python3 scripts/verify_intake_demo.py --tests --dashboard-test --operations --events --notifications --reconciliation --faults
+          python3 scripts/evaluate_copilot.py
+

@@ -1,0 +1,32 @@
+Port 22
+AddressFamily any
+ListenAddress 0.0.0.0
+HostKey /var/lib/ssh-host-keys/ssh_host_ed25519_key
+PidFile /run/sshd.pid
+
+PermitRootLogin no
+PubkeyAuthentication yes
+AuthenticationMethods publickey
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+PermitEmptyPasswords no
+UsePAM no
+StrictModes yes
+AuthorizedKeysFile /etc/ssh/authorized_keys/%u
+AllowGroups opsbridge-sftp
+
+PermitTTY no
+AllowAgentForwarding no
+AllowTcpForwarding no
+AllowStreamLocalForwarding no
+X11Forwarding no
+PermitTunnel no
+GatewayPorts no
+PermitUserEnvironment no
+PermitUserRC no
+MaxAuthTries 3
+LoginGraceTime 30
+LogLevel VERBOSE
+
+Subsystem sftp internal-sftp
+Include /run/sshd/opsbridge-accounts.conf

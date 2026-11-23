@@ -1,0 +1,63 @@
+server {
+    listen 8080;
+    root /usr/share/nginx/html;
+    location = /opsbridge-monitoring.json {
+        add_header Cache-Control "no-store";
+        try_files $uri =404;
+    }
+    location /api/auth/ {
+        proxy_pass http://${API_UPSTREAM}/auth/;
+        client_max_body_size 2k;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 15s;
+    }
+    location = /api/dashboard/notification-policies {
+        limit_except GET PUT { deny all; }
+        proxy_pass http://${API_UPSTREAM}/dashboard/notification-policies;
+        client_max_body_size 64k;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 10s;
+    }
+    location ~ "^/api/dashboard/(deliveries/[0-9a-fA-F-]{36}/reprocess|incidents/[0-9a-fA-F-]{36}/acknowledge)$" {
+        limit_except POST { deny all; }
+        rewrite ^/api(/.*)$ $1 break;
+        proxy_pass http://${API_UPSTREAM};
+        client_max_body_size 2k;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 10s;
+    }
+    location = /api/dashboard/stream {
+        limit_except GET { deny all; }
+        proxy_pass http://${API_UPSTREAM}/dashboard/stream;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+        proxy_buffering off;
+        proxy_cache off;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 30s;
+    }
+    location = /api/dashboard/copilot/investigate {
+        limit_except POST { deny all; }
+        proxy_pass http://${API_UPSTREAM}/dashboard/copilot/investigate;
+        client_max_body_size 2k;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 25s;
+    }
+    location ~ "^/api/dashboard/reconciliation/(definitions|runs/[0-9a-fA-F-]{36}/rerun)$" {
+        limit_except POST { deny all; }
+        rewrite ^/api(/.*)$ $1 break;
+        proxy_pass http://${API_UPSTREAM};
+        client_max_body_size 2k;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 10s;
+    }
+    location /api/dashboard/ {
+        limit_except GET { deny all; }
+        proxy_pass http://${API_UPSTREAM}/dashboard/;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 10s;
+    }
+    location /api/ { return 404; }
+    location /assets/ { try_files $uri =404; }
+    location / { try_files $uri $uri/ /index.html; }
+}

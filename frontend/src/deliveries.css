@@ -1,0 +1,112 @@
+.command-shell[data-area='deliveries'] .command-main { max-width: 108rem; margin-inline: auto; }
+.command-shell[data-area='deliveries'] .command-page-header h1,
+.delivery-identity h1 { font-size: clamp(2rem, 2.8vw, 2.8rem); overflow-wrap: anywhere; }
+.command-shell[data-area='deliveries'] .command-page-header p { font-size: 1rem; }
+.command-page-header.delivery-refresh { float: right; margin: 0 0 .8rem 1rem; }
+.delivery-workspace { min-width: 0; }
+.delivery-identity { margin-bottom: 1rem; }
+.delivery-identity h1 { margin: .4rem 0 .65rem; }
+.delivery-identity-context { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem 1rem; color: var(--muted); }
+.delivery-identity-context > :first-child { color: var(--ink); font-weight: 750; }
+.delivery-identity-context .badge { font-size: .875rem; }
+.delivery-evidence-nav { clear: both; display: flex; gap: .5rem; margin-bottom: 1.1rem; border-bottom: 1px solid var(--line); }
+.delivery-evidence-nav a { color: #165d58; padding: .7rem .85rem; font-weight: 720; text-underline-offset: .25em; }
+.delivery-summary { background: #17363d; border-radius: .8rem; padding: 1.1rem 1.25rem; margin-bottom: 1.15rem; color: #f2faf9; }
+.delivery-summary h2 { font-size: 1.2rem; }
+.delivery-summary dl { margin: .65rem 0 0; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .7rem 1.1rem; }
+.delivery-summary dl > div { border-left: 1px solid #49656b; padding-left: .8rem; min-width: 0; }
+.delivery-summary dt { color: #cfdfdf; font-size: .9rem; display: flex; align-items: center; gap: .45rem; }
+.delivery-summary dt svg { flex: none; }
+.delivery-summary dd { font-size: 1rem; font-weight: 700; margin-top: .4rem; }
+.delivery-summary dd + dd { font-size: .85rem; font-weight: 500; color: #cfdfdf; }
+.delivery-evidence-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; gap: 1.15rem; }
+.delivery-evidence-stack { display: grid; gap: 1.15rem; min-width: 0; }
+.delivery-panel, .delivery-queue-filters, .delivery-results {
+  background: #fff; border: 1px solid #d6e2e5; border-radius: .8rem; min-width: 0; overflow-wrap: anywhere;
+}
+.delivery-panel { padding: 1.2rem; border-top: 3px solid #437d74; }
+.delivery-panel h2 { display: flex; align-items: center; gap: .55rem; font-size: 1.25rem; }
+.delivery-panel h2 svg { flex: none; color: #276c64; }
+.delivery-panel p { font-size: .9375rem; line-height: 1.45; }
+.delivery-facts { grid-template-columns: minmax(5.5rem, 1fr) minmax(0, 2fr); font-size: .9375rem; gap: .55rem .9rem; }
+.delivery-facts dd { color: var(--ink); }
+.delivery-facts code { overflow-wrap: anywhere; }
+.delivery-file-name { display: block; margin-top: .7rem; font-size: 1.1rem; }
+.delivery-disclosure, .delivery-panel .notification-history { margin-top: .75rem; padding: .7rem .8rem; border: 1px solid var(--line); border-radius: .45rem; }
+.delivery-disclosure summary, .delivery-lookup summary { cursor: pointer; font-weight: 690; }
+.delivery-incidents { border-top-color: #a65330; }
+.delivery-incidents h2 svg { color: #92400e; }
+.delivery-incident-list { list-style: none; margin: .9rem 0 0; padding: 0; display: grid; gap: .85rem; }
+.delivery-incident-list > li { padding: .9rem; background: #f8fafc; border: 1px solid var(--line); border-radius: .55rem; }
+.delivery-incident-list > li.selected-incident { background: #eff6fe; }
+.delivery-incident-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: .45rem; }
+.delivery-incident-header h3 { font-size: 1.0625rem; }
+.delivery-incident-evidence .command-text-link { display: inline-block; margin-top: .45rem; }
+.delivery-comment { display: block; color: var(--ink); }
+.delivery-investigation { border-left: 3px solid #6d9c96; padding-left: .65rem; margin: .8rem 0; }
+.delivery-investigation h4 { margin: 0; }
+.delivery-investigation .copilot { margin-top: .55rem; }
+.delivery-panel #timeline-title { margin-bottom: .25rem; }
+.delivery-panel .timeline li { padding-bottom: 1rem; }
+.delivery-panel .timeline strong { font-size: 1rem; }
+.delivery-panel .timeline small { font-size: .875rem; }
+.delivery-scope { margin: .7rem 0; }
+.delivery-queue { display: grid; gap: 1rem; }
+.delivery-queue-filters { padding: 1rem 1.15rem; }
+.delivery-queue-filters fieldset { margin: 0 0 .9rem; padding: 0; border: 0; min-width: 0; }
+.delivery-queue-filters legend, .delivery-selects label { font-size: .875rem; font-weight: 720; }
+.delivery-integration-pills { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .45rem; }
+.delivery-integration-select { display: none; }
+.delivery-integration-pills button[aria-pressed='true'] { color: #0b534d; border-color: #82b5ac; background: #e1f3ed; }
+.delivery-selects { display: grid; grid-template-columns: minmax(8rem, 12rem) minmax(8rem, 12rem) minmax(0, 22rem); gap: .65rem; }
+.delivery-selects label { display: grid; gap: .3rem; min-width: 0; }
+.delivery-selects :is(input, select), .delivery-lookup input, .delivery-integration-select {
+  font: inherit; padding: .55rem .65rem; min-width: 0; min-height: 2.6rem; border: 1px solid #aec3c4; border-radius: .45rem; background: #fff; color: var(--ink);
+}
+.delivery-lookup { margin-top: .85rem; }
+.delivery-lookup form { display: flex; flex-wrap: wrap; align-items: end; gap: .65rem; margin-top: .55rem; }
+.delivery-lookup label { display: grid; min-width: 0; width: min(100%, 25rem); }
+.delivery-results { border-top: 3px solid #437d74; }
+.delivery-results header { padding: 1.05rem 1.15rem; }
+.delivery-results header h2 { font-size: 1.25rem; }
+.delivery-results .command-state { margin: 0 1rem 1rem; }
+.delivery-result-count { font-weight: 690; }
+.delivery-table table { table-layout: fixed; font-size: .9375rem; }
+.delivery-table th { font-size: .875rem; }
+.delivery-table th:first-child { width: 34%; }
+.delivery-table th:nth-child(2) { width: 20%; }
+.delivery-table th:nth-child(3) { width: 22%; }
+.delivery-table td { vertical-align: top; white-space: normal; }
+.delivery-table td:first-child { box-shadow: inset 3px 0 transparent; }
+.delivery-table tr[data-attention='true'] td:first-child { box-shadow: inset 3px 0 #ae633a; }
+.delivery-table tr[data-attention='true'] { background: #fdf8f4; }
+.delivery-table .badge { white-space: normal; }
+.delivery-cell-label { display: none; }
+
+@media (max-width: 66rem) {
+  .delivery-summary dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 61rem) {
+  .delivery-evidence-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 42rem) {
+  .command-shell[data-area='deliveries'] .command-page-header:not(.delivery-refresh) {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .6rem;
+  }
+  .command-shell[data-area='deliveries'] .command-page-header:not(.delivery-refresh) > div:first-child { display: contents; }
+  .command-shell[data-area='deliveries'] .command-page-header:not(.delivery-refresh) p { grid-column: 1 / -1; margin: 0; }
+  .command-shell[data-area='deliveries'] .command-page-header:not(.delivery-refresh) .command-refresh { grid-area: 1 / 2; }
+  .command-shell[data-area='deliveries'] .command-page-header .command-refresh small { display: none; }
+  .delivery-integration-pills { display: none; }
+  .delivery-integration-select { display: block; width: 100%; margin-top: .35rem; }
+  .delivery-selects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .delivery-selects label:last-child { grid-column: 1 / -1; }
+  .delivery-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .delivery-table :is(table, tbody) { display: block; width: 100%; }
+  .delivery-table tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-top: 1px solid var(--line); padding: .8rem; }
+  .delivery-table td { display: block; border: 0; min-width: 0; padding: .3rem .45rem; }
+  .delivery-table td:first-child { grid-column: 1 / -1; }
+  .delivery-cell-label { display: block; margin-bottom: .2rem; color: var(--muted); font-size: .8125rem; }
+  .delivery-identity-context { align-items: start; gap: .4rem .7rem; }
+  .delivery-summary { padding-inline: .85rem; }
+}
